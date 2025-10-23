@@ -5,6 +5,7 @@ import type { IncomingMessage } from "http";
 
 const app = express();
 const port = process.env.PORT || "8081";
+const BROADCAST_DELAY_MS = 100;
 
 // save last message to return when
 // a new client connect to the server
@@ -41,7 +42,7 @@ function propagate(message: Buffer) {
         if (client.readyState === WebSocket.OPEN) {
             setTimeout(() => {
                 client.send(message, { binary: false });
-            }, 100);
+            }, BROADCAST_DELAY_MS);
         }
     });
 }
